@@ -1,0 +1,2 @@
+# sugestbot
+This was a discord bot created for use in a few private discord servers to serve the needs of myself, and the other people in the servers. Initially it was used to make suggestions into a "mod chat" in discord servers but eventually evolved to serve other purposes as well. It also served as an introduction to Node.js and Javascript. The bot uses various APIs to implement some of its commands.

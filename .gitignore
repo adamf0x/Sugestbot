@@ -1,0 +1,9 @@
+node_modules/
+.env
+commands/editwords.js
+commands/epicsearch.js
+commands/help.js
+commands/words.js
+commands/randimg.js
+words.json
+wordleaders.json
