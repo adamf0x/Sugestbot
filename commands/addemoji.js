@@ -8,7 +8,7 @@ module.exports = {
         message.channel.send("must have manage emojis permissions");
         return;
       }
-      if (message.content.includes(":")) {
+      if (message.content.includes(":") && !message.content.includes("https://")) {
         var emojiId = message.content.substring(
           message.content.lastIndexOf(":") + 1,
           message.content.lastIndexOf(">")
@@ -40,8 +40,36 @@ module.exports = {
         } else {
           message.channel.send("this emoji is already in the server");
         }
-      } else {
-        message.channel.send("specify an emoji to add");
+      } else if(message.content.includes("https://")) {
+        var emojiInfo = text.split(" ");
+        if(emojiInfo.length !== 2){
+          return message.channel.send("Provide either an emoji or a link and a name to use for your new emoji.")
+        }
+        message.guild
+          .createEmoji(emojiInfo[0], emojiInfo[1])
+          .then((emoji) =>
+            message.channel.send(`Created new emoji with name ${emoji.name}!`)
+          )
+          .catch(console.error);
+      }
+      else if(text === "recent"){
+        let recentEmoji = JSON.parse(fs.readFileSync("./recentemoji.json", "utf8"));
+        if (
+          message.guild.emojis.find((emoji) => emoji.id === recentEmoji[message.guild.id].id) == null ||
+          message.guild.emojis.find((emoji) => emoji.id === recentEmoji[message.guild.id].id) ==
+            undefined
+        ) {
+        message.guild
+        .createEmoji(recentEmoji[message.guild.id].url, recentEmoji[message.guild.id].name).then((emoji)=>{
+          message.channel.send(`Created new emoji with name ${emoji.name}!`)
+        })
+      }else{
+        return message.channel.send("Most recently used emoji already exists in this server")
+      }
+        
+      }
+      else{
+        message.channel.send("Specify an emoji or link to add.");
       }
   },
   help: {
